@@ -1,0 +1,9 @@
+---
+- hosts: ansibleclient  #server host or group name
+  tasks:
+    - name: install httpd
+      yum: name=httpd state=latest
+
+  handlers:
+    - name: restart httpd
+      service: name=httpd state=restarted

@@ -1,0 +1,27 @@
+Steps performed to enable ssl 
+
+
+yum install mod_ssl openssl
+openssl genrsa -out ca.key 2048
+openssl req -new -key ca.key -out ca.csr
+openssl x509 -req -days 365 -in ca.csr -signkey ca.key -out ca.crt
+ls -ltr
+cp ca.crt /etc/pki/tls/certs
+cp ca.key /etc/pki/tls/private/ca.key
+cp ca.csr /etc/pki/tls/private/ca.csr
+vi ssl.conf
+systemctl restart httpd
+mkdir -p /var/www/html/adorkable
+mkdir -p /etc/httpd/sites-available
+mkdir -p /etc/httpd/sites-enabled
+mv /var/www/html/adorkable /var/www/html/helloword
+cd ../conf
+vi httpd.conf
+cd /var/www/html/helloword
+ls -ltr
+cd /etc/httpd/sites-available
+ls -ltr
+vi helloworld.conf
+ln -s /etc/httpd/sites-available/helloworld.conf /etc/httpd/sites-enabled/helloworld.conf
+systemctl restart httpd
+systemctl status httpd
